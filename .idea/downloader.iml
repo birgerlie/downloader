@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RUBY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v2.6.0, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v2.6.4, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v2.6.0, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-ssh (v2.1.4, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.0.10, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-ftp-list (v3.2.0, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-sftp (v2.0.5, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v2.6.0, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.1.2, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="log4r (v1.1.9, RVM: ruby-1.9.2-p0 [companybook]) [gem]" level="application" />
+  </component>
+</module>
+
