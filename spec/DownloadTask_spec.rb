@@ -17,17 +17,17 @@ end
 
 describe "get_local_files" do
   it "should return an array" do
-     task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp )
+     task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp )
       (task.get_local_files.is_a? Array).should == true
   end
 
   it "should return 1 or more files" do
-     task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp )
+     task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp )
       task.get_local_files.length > 0
   end
 
   it "files should have size and last_modified and a file name" do
-     task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp )
+     task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp )
      task.get_local_files.first[:size].should > 0
      task.get_local_files.first[:name].length.should > 0
      task.get_local_files.first[:last_modified].should > 0
@@ -37,17 +37,17 @@ end
 
 describe "get_remote_files" do
  it "should return an array" do
-     task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp )
+     task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp )
       (task.get_remote_files.is_a? Array).should == true
   end
 
   it "should return 1 or more files" do
-     task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp )
+     task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp )
       task.get_remote_files.length > 0
   end
 
   it "files should have size and last_modified and a file name" do
-     task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp )
+     task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp )
      remote_files =  task.get_remote_files
 
      pp remote_files.first
@@ -59,14 +59,14 @@ describe "get_remote_files" do
 
   it "files should filter by filetype" do
     fp = FileTypePredicate.new("txt")
-    task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp, filter: [fp])
+    task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp)
     task.get_remote_files.each {|f|  fp.match(f).should == true   }
   end
 
   it "files should filter by filetype" do
     fp = FileTypePredicate.new("txt")
-    rp = RegexPredicate.new(/foretak/)
-    task = DownloadTask.new(:host=>'80.232.16.151', user:'cbook', password:'INfigr4', :protocol=> :sftp, filter: [fp,rp])
+    rp = RegexPredicate.new(/rfc/)
+    task = DownloadTask.new(:host=>'ftp.uio.no', user:'anonumous', password:'', :protocol=> :ftp , filter: [fp,rp])
     task.get_remote_files.each {|f|  fp.match(f).should == true }
     task.get_remote_files.each {|f|  fp.match(f).should == true and rp.match(f).should == true  }
   end

@@ -1,0 +1,8 @@
+.idea
+target
+*.iml
+*.ipr
+*.iws
+*.DS_Store
+ftp_synch.rb
+

@@ -12,7 +12,7 @@ class SFtpWorker < Worker
     @host =  params.delete(:host)
     @user = params.delete(:user)
 
-    raise "user required" unless @user
+#    raise "user required" unless @user
     raise "host required" unless @host
   end
 
