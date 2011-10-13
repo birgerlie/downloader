@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.2)
+    kafka-rb (0.0.5)
     log4r (1.1.9)
     net-ftp-list (3.2.0)
     net-sftp (2.0.5)
@@ -15,14 +16,24 @@ GEM
     rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)
+    slyphon-log4j (1.2.15)
+    slyphon-zookeeper (0.2.4)
+    slyphon-zookeeper (0.2.4-java)
+      slyphon-log4j (= 1.2.15)
+      slyphon-zookeeper_jar (= 3.3.3)
+    slyphon-zookeeper_jar (3.3.3)
+    zk (0.8.5)
+      slyphon-zookeeper (~> 0.2.3)
 
 PLATFORMS
   java
   ruby
 
 DEPENDENCIES
+  kafka-rb
   log4r
   net-ftp-list
   net-sftp
   net-ssh
   rspec
+  zk

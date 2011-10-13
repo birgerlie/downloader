@@ -1,0 +1,7 @@
+simple ftp utility for simple synch from several ftp sites to hdfs
+support for filtering on file types and regex on names.
+
+Reads data from ftp site, check if the files reside in hdfs (using shell commands) and downloads locally and moves files to hdfs after successful download
+
+
+

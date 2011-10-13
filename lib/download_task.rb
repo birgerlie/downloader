@@ -1,12 +1,13 @@
 require_relative "../lib/ftp_worker"
 require_relative "../lib/s_ftp_worker"
 require_relative "../lib/hdfs"
+require 'zip/zip'
 
 require "pp"
 
 
 class DownloadTask
-  attr_accessor :username, :password, :host,:destination, :protocol, :last_check, :filter, :source
+  attr_accessor :username, :password, :host, :destination, :protocol, :last_check, :filter, :source
 
   TEMP_FILE_DIR ="temp_files"
 
@@ -22,8 +23,7 @@ class DownloadTask
     @filters = param[:filters] || []
 
 
-    Dir.mkdir(TEMP_FILE_DIR ) unless Dir.exist? TEMP_FILE_DIR
-
+    Dir.mkdir(TEMP_FILE_DIR) unless Dir.exist? TEMP_FILE_DIR
 
 
   end
@@ -52,20 +52,20 @@ class DownloadTask
 
     files.each do |file|
       num_filters = @filters.length
-       for filter in @filters
-          if filter.match(file)
-            num_filters -=1
-          else
-            break
-          end
-         filtered << file if num_filters == 0
-       end
+      for filter in @filters
+        if filter.match(file)
+          num_filters -=1
+        else
+          break
+        end
+        filtered << file if num_filters == 0
+      end
     end
     filtered
   end
 
   def get_remote_files
-      worker = create_worker
+    worker = create_worker
 
     if @source and worker.respond_to? :change_dir
       pp "setting dir to #{@source}"
@@ -83,23 +83,21 @@ class DownloadTask
   end
 
   def create_destination_file_name(file)
-    @destination + "/" +  file
+    @destination + "/" + file
   end
 
   def download_external_files(files = [])
 
-
-
-    worker =  create_worker
+    worker = create_worker
     if @source and worker.respond_to? :change_dir
       pp "setting dir to #{@source}"
       worker.change_dir @source
     end
 
-    sum_bs = 0
+    sum_bytes = 0
     sum_sec = 1
     files.each do |file|
-      file_name  = file[:name]
+      file_name = file[:name]
 
       start = Time.now
 
@@ -110,7 +108,7 @@ class DownloadTask
       diff = Time.now - start
 
       bs = file[:size]/diff
-      sum_bs += (file[:size]/1024)
+      sum_bytes += (file[:size]/1024)
       sum_sec += diff
 
       pp "downloaded #{file_name}  in #{diff} s #{bs/1024} "
@@ -119,14 +117,28 @@ class DownloadTask
       write_file_to_hdfs(file_name, new_file_name)
     end
 
-    pp "downloaded #{files.length} files, total #{sum_bs/1024} Mb in #{sum_sec} sec avg #{sum_bs/sum_sec}"
+    pp "downloaded #{files.length} files, total #{sum_bytes/1024} Mb in #{sum_sec} sec avg #{sum_bytes/sum_sec}"
     files
   end
 
-  def write_file_to_hdfs(source,destination)
-      Hdfs.new().put(source, destination)
-      File.delete(source)
+  def write_file_to_hdfs(source, destination)\
+
+    file = ""
+    if file.downcase.end_with? "zip"
+      unzip_file(source, Dir.current)
+    end
+
+    Hdfs.new().put(source, destination)
+    File.delete(source)
   end
 
-
+  def unzip_file (file, destination)
+    Zip::ZipFile.open(file) { |zip_file|
+      zip_file.each { |f|
+        f_path=File.join(destination, f.name)
+        FileUtils.mkdir_p(File.dirname(f_path))
+        zip_file.extract(f, f_path) unless File.exist?(f_path)
+      }
+    }
+  end
 end

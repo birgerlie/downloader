@@ -26,6 +26,7 @@ class SFtpWorker < Worker
         end
       end
 
+
     files
   end
 
