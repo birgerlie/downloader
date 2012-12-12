@@ -60,6 +60,10 @@ class Hdfs
     sys_cmd command
   end
 
+  def exist? dir
+    cmd = "-test -d #{dir}"
+    sys_cmd(cmd).length == 0
+  end
 
   def sys_cmd(cmd, size=0, status="")
     #size = size.to_i
@@ -67,19 +71,14 @@ class Hdfs
 
     cmd = "hadoop fs " + cmd
    result =  %x[#{cmd}]
-
+    puts "result: #{result}"
     time_used = Time.now - start
     out = "#{cmd} - ["
     out << "%04.1fGb " % [size/(1024.0)] if size > 0
     out << "%3.0fs] %s" % [time_used, status]
     out << " %5.1fMb/s" % [(size/time_used)] if size > 0
     puts out
+
+    result
   end
 end
-
-#Hdfs.new.list
-#Hdfs.new.copy_to_local "/user/hjellum/hdfs_ruby_test.bin", "."
-#Hdfs.new.put "hdfs_ruby_test.bin", "/jalla/bnalla/jalla-balla.bin"
-#Hdfs.new.copy_from_local "hdfs_ruby_test.bin", "jalla-balla.bin"
-#Hdfs.new.move_from_local "jalla-balla.bin", "/user/hjellum/hdfs_ruby_test.bin2"
-

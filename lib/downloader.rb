@@ -7,15 +7,16 @@ class Downloader
 
   def initialize(params = { })
     @tasks = params[:tasks]||[]
-    @sleep_time = params[:sleep_time] || 60
+    @sleep_time = params[:sleep_time] || 20
 
     run_tasks
   end
 
   def run_tasks
    while (true) do
+	begin
       @tasks.each do |task|
-        begin
+
         pp "#{task.host} reading remote files"
         remote_files = task.get_remote_files
         pp "#{task.host} read #{remote_files.length} remote files"
@@ -31,12 +32,12 @@ class Downloader
         pp "#{task.host} have to download #{downloads.length} new files"
 
         task.download_external_files(downloads)
-        rescue e
-          pp e
-        end
-
       end
+rescue Exception => e
+ pp e
+end
 
+      sleep_time = 30
       pp "sleeping for #{@sleep_time} minutes"
       sleep @sleep_time
     end
@@ -44,7 +45,7 @@ class Downloader
 
   def create_file_hash(files = [])
     file_map = { }
-    files.each { |f| file_map[f [:name]]= f }
+    files.each { |f| file_map[f[:name]]= f }
     file_map
   end
 
@@ -59,12 +60,9 @@ class Downloader
       remote_new_file_name =file[:new_name]
 
       if local.has_key? remote_new_file_name
-        #pp "local has file #{remote_new_file_name}"
         unless file_is_untouched(local[remote_new_file_name], file)
           pp "file #{remote_new_file_name } changed"
           diff << file
-        else
-          #pp "file is equal #{remote_new_file_name }"
         end
 
       else
@@ -79,14 +77,8 @@ class Downloader
   def file_is_untouched(local ={ }, remote={ })
     raise "file is null" if !local or !remote
     #return (local[:size] == remote[:size] and local[:last_modified]>= remote[:last_modified])
-    return true #(local[:last_modified] >= remote[:last_modified])
+    return (local[:last_modified] >= remote[:last_modified])
   end
-
-
 end
-
-
-
-
 
 

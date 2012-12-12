@@ -1,5 +1,5 @@
-require_relative "download_task"
-  class ExDownloadTask < DownloadTask
+require_relative "task"
+  class ExperianTask < Task
 
   def initialize(param)
     super(param)
@@ -15,6 +15,4 @@ require_relative "download_task"
 
     @destination + "/#{year}/#{month}-#{day}/#{name}"
   end
-
-
 end
