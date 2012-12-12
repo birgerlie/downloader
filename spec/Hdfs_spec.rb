@@ -33,10 +33,7 @@ describe "list_parse" do
       last_mod =  hdfs.parse_list(list).last[:last_modified]
       actual =  Time.utc(2011,6,17, 8 ,20)
 
-
       last_mod.should == actual
-
-
   end
 
   it "files should parse :size" do
@@ -59,5 +56,12 @@ describe "list_parse" do
       value =  hdfs.parse_list(list)
       value.length.should == 0
       end
+
+
+  it "should write data to hdfs" do
+    hdfs = Hdfs.new()
+    hdfs.
+
+  end
 
 end

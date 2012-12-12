@@ -1,12 +1,11 @@
 require_relative "../lib/ftp_worker"
 require_relative "../lib/s_ftp_worker"
 require_relative "../lib/hdfs"
-require 'zip/zip'
 
 require "pp"
 
 
-class DownloadTask
+class Task
   attr_accessor :username, :password, :host, :destination, :protocol, :last_check, :filter, :source
 
   TEMP_FILE_DIR ="temp_files"
@@ -122,8 +121,7 @@ class DownloadTask
   end
 
   def write_file_to_hdfs(source, destination)\
-
-    file = ""
+      file = ""
     if file.downcase.end_with? "zip"
       unzip_file(source, Dir.current)
     end
@@ -133,12 +131,12 @@ class DownloadTask
   end
 
   def unzip_file (file, destination)
-    Zip::ZipFile.open(file) { |zip_file|
-      zip_file.each { |f|
-        f_path=File.join(destination, f.name)
-        FileUtils.mkdir_p(File.dirname(f_path))
-        zip_file.extract(f, f_path) unless File.exist?(f_path)
-      }
-    }
+    #Zip::ZipFile.open(file) { |zip_file|
+    #  zip_file.each { |f|
+    #    f_path=File.join(destination, f.name)
+    #    FileUtils.mkdir_p(File.dirname(f_path))
+    #    zip_file.extract(f, f_path) unless File.exist?(f_path)
+    #  }
+    #}
   end
 end
