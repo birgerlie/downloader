@@ -1,7 +1,7 @@
 require_relative "lib/downloader"
-require_relative "lib/ex_download_task"
+require_relative "lib/experian_task"
 require_relative "lib/file_type_predicate"
-require_relative "lib/download_task"
+require_relative "lib/task"
 
 
 class FtpSynch

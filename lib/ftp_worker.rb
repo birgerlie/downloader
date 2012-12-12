@@ -20,11 +20,7 @@ class FtpWorker   < Worker
 
     files = []
     @ftp.list.each do |file|
-
-      pp file
-
       info =  Net::FTP::List.parse(file)
-
       if(info.file? and !info.name.start_with? "." and !info.symlink?)
         files << {:name=>info.name, size: info.size, last_modified: info.mtime}
       end
@@ -34,7 +30,6 @@ class FtpWorker   < Worker
   end
 
   def get(source, destination)
-    #File.new(destination)
     @ftp.getbinaryfile(source,destination)
   end
 
